@@ -36,61 +36,22 @@ function parse(x, i) {
     }
 }
 
-let last;
-
 function isComplete(timestamp) {
     for(let i = 0; i < timetable.length; i++){
         if(timestamp % timetable[i].base !== timetable[i].remainder) {
             return false;
         }
-        if(i > 4) {
-            console.log(i,timestamp, timestamp - last, multiplier, timestamp % timetable[i].base, timetable)
-            last = timestamp;
-        }
     }
     return true;
 }
 
-function computeLCM(x, y, remainder) {
-    let a, b;
-
-    if(x > y) {
-        a = x;
-        b = y;
-    } else {
-        a = y;
-        b = x;
-    }
-
-    while(a % b !== 0) {
-        console.log(a, b, a % b);
-        tb = a % b;
-        a = b;
-        b = tb;
-    }
-
-    return x * y / b;
-}
-
 function main(data) {
-    let prospect = 393165832162222;
-    console.log("A match, but too low: ", prospect)
     let input = data.split('\n').filter(x => !!x);
     timetable = input[1].split(',').map(parse).filter(x => !!x)
     console.log(timetable);
-    // let rarest = timetable
-    //     .reduce((a, b) => {
-    //         if(a.base > b.base) {
-    //             return a;
-    //         } else {
-    //             return b;
-    //         }
-    //     })
-    //console.log(computeLCM(557,419, 31))
-    multiplier = 37; // 41 * 557
-    timestamp = multiplier + 81039354439680
-    while(!isComplete(timestamp) && timestamp < Number.MAX_SAFE_INTEGER) {
-        timestamp += multiplier;
+    multiplier = 0
+    while(!isComplete(557 * multiplier + 41) && timestamp < Number.MAX_SAFE_INTEGER) {
+        multiplier += 1
     }
-    console.log(timestamp, timestamp < Number.MAX_SAFE_INTEGER);
+    console.log(timestamp, timestamp / Number.MAX_SAFE_INTEGER);
 }
